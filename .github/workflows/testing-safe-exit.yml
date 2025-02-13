@@ -22,8 +22,16 @@ jobs:
 
     - name: Run Bash Script
       id: run-bash-script
-      if: ${{ always() && steps.download-artifact.outcome == 'failure' }}
+      if: ${{ steps.download-artifact.outcome == 'failure' }}
       run: | 
         echo "Safe exit!"
         exit 0
+      shell: bash
+
+    - name: Run Bash Script Two
+      id: run-bash-script-two
+      if: ${{ steps.download-artifact.outcome == 'success' }}
+      run: | 
+        echo "Bad exit!"
+        exit 1
       shell: bash
