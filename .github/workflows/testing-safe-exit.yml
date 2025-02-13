@@ -19,13 +19,13 @@ jobs:
       with:
         name: generic-file
         path: ./downloaded-artifacts
-        annotations: false
 
     - name: Run Bash Script
       id: run-bash-script
       if: ${{ steps.download-artifact.outcome == 'failure' }}
       run: | 
         echo "Safe exit!"
+        echo "::warning file=deflake::No deflake file found."
         exit 0
       shell: bash
 
