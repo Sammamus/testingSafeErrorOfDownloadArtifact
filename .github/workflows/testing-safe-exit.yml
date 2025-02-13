@@ -1,0 +1,28 @@
+name: Download Artifact
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  download-artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      id: checkout-repo
+      uses: actions/checkout@v4
+
+    - name: Download Artifact
+      id: download-artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: generic-file
+        path: ./downloaded-artifacts
+
+    - name: Run Bash Script
+      id: run-bash-script
+      if: ${{ always() && steps.download-artifact.outcome == 'failure' }}
+      run: | 
+        echo "Safe exit!"
+        exit 0
+      shell: bash
